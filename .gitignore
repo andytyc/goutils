@@ -1,4 +1,18 @@
-# Binaries for programs and plugins
+# Dependency directories (remove the comment below to include it)
+# vendor/
+# 移除"无后缀"的二进制文件 {放在顶部}
+*
+!*.*
+!*/
+
+# 保留"无后缀"的一些文件
+!.gitignore
+!LICENSE
+!README
+!Makefile
+!Dockerfile
+
+# 移除"有后缀"的二进制文件
 *.exe
 *.exe~
 *.dll
@@ -11,5 +25,16 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# 忽略"隐藏"文件
+.idea
+.idea/
+.DS_Store
+
+# 忽略目录
+logs/
+runlogs/
+
+# 忽略文件
+*.log
+*.html
+*.pdf
