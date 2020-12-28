@@ -1,7 +1,7 @@
-package meimei
+package meitest
 
 // "github.com/andytyc/goutils/mei_sort"
 
 // func intTest(t *testing.T) {
-// 	sortIntFloat32 := mei_sort.SortIntFloat32{}
+// 	sortIntFloat32 := meisort.SortIntFloat32{}
 // }
