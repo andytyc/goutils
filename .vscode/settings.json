@@ -1,0 +1,14 @@
+{
+    "go.testFlags": [
+        "-v",
+        "-count=1"
+    ],
+    "go.testTimeout": "10s",
+    "[go]": {
+        "editor.insertSpaces": false,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+}
