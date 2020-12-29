@@ -21,5 +21,11 @@ func TestInt(t *testing.T) {
 		simList = append(simList, meisort.SortIntFloat32{Name: index, Value: sim})
 	}
 	sort.Sort(simList)
-	logs.Info("simList  :", simList)
+	logs.Info("simList  :", simList) // 这种方式，除了排序外，还能为每个值绑定一个键值{比如：字典的key,切片的index}
+
+	// 若仅仅是切片 {Slice}, 则可以：
+	logs.Info("sims  :", sims)
+	// sort.Slice(sims, func(i, j int) bool { return sims[i] < sims[j] }) // 升序
+	sort.Slice(sims, func(i, j int) bool { return sims[i] > sims[j] }) // 降序
+	logs.Info("sims  :", sims)
 }
