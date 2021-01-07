@@ -21,3 +21,13 @@ os.O_TRUNC
 os.O_APPEND
 ```
 
+
+# FileMode
+
+```go
+// 默认内置自带
+os.ModePerm FileMode = 0777 // Unix permission bits
+
+// 自己也可以自定义，如：linux下的权限754，在golang格式转换示例：0xxx
+var mode1 os.FileMode = 0754
+```
