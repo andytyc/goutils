@@ -19,7 +19,7 @@ func CreateFile(filepath string) (err error) {
 	if exist {
 		return
 	}
-	dir := PathDir(filepath)
+	dir := PathDoGetDir(filepath)
 	if !PathIsExist(dir) {
 		err = CreateDir(dir)
 		if err != nil {
