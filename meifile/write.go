@@ -29,8 +29,8 @@ func writeFileData(path string, data []byte, flag int, perm os.FileMode) (err er
 	return err
 }
 
-// WriteFile 写入内容至文件{不存在则创建文件}
-func WriteFile(filepath string, data []byte) (err error) {
+// WriteFile 写入内容至文件{不存在则创建文件} | 若传入字符串，则自己转换：[]byte(data)
+func WriteFile(filepath string, data []byte) error {
 	return writeFileData(filepath, data, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, os.ModePerm)
 }
 
