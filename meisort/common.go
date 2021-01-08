@@ -84,3 +84,10 @@ func LessDo(slice interface{}) func(i, j int) {
 	is := []int{}
 	return func(i, j int) { is[i], is[j] = is[j], is[i] }
 }
+
+// // SliceSort SliceSort
+// func SliceSort(items interface{}) {
+// 	less := func(i, j int) bool { return items[i] > items[j] }
+// 	sort.Slice(items, less) // 降序
+// 	sort.Sort()
+// }
