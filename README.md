@@ -1,2 +1,2 @@
 # goutils
-golang的工具包。
+a util bucket of golang.
