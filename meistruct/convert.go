@@ -6,7 +6,8 @@ import (
 	"github.com/andytyc/goutils/meimap"
 )
 
-// Bson2Map 对象struct根据bson转换至字典
+// Bson2Map | Struct => Map
+// Sturct object convert to a map according to bson tag of struct
 func Bson2Map(obj interface{}, checks, dels []string, idpass bool) map[string]interface{} {
 	t := reflect.TypeOf(obj).Elem()
 	v := reflect.ValueOf(obj).Elem()
@@ -22,7 +23,7 @@ func Bson2Map(obj interface{}, checks, dels []string, idpass bool) map[string]in
 				if !v.Field(i).IsZero() {
 					data["_id"] = v.Field(i).Interface()
 				} else {
-					return nil // 在对象转换键值对时，发现_id为空，请核查
+					return nil // if idpass is false, _id is not allow to be empty.
 				}
 			} else {
 				data[bsonVal] = v.Field(i).Interface()
