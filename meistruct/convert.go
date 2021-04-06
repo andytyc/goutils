@@ -7,7 +7,8 @@ import (
 )
 
 // Bson2Map | Struct => Map
-// Sturct object convert to a map according to bson tag of struct
+// 通过Struct的字段tag标签(bson)，来转换为字典键值对
+// 场景：mongodb使用时，对应的bson字段
 func Bson2Map(obj interface{}, checks, dels []string, idpass bool) map[string]interface{} {
 	t := reflect.TypeOf(obj).Elem()
 	v := reflect.ValueOf(obj).Elem()

@@ -1,6 +1,6 @@
 package meimap
 
-// StringPickByKeys | pick the key you want from the intput map according to the checkeys slice
+// StringPickByKeys 挑选map中指定的key
 func StringPickByKeys(intput map[string]interface{}, checkeys []string) map[string]interface{} {
 	if checkeys == nil || len(checkeys) == 0 {
 		return intput
@@ -14,7 +14,7 @@ func StringPickByKeys(intput map[string]interface{}, checkeys []string) map[stri
 	return output
 }
 
-// StringDelByKeys | del one or many key from map
+// StringDelByKeys 删除map中指定的key
 func StringDelByKeys(intput map[string]interface{}, dels []string) map[string]interface{} {
 	if dels == nil || len(dels) == 0 {
 		return intput
