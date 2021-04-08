@@ -2,12 +2,12 @@ package meistruct
 
 import "reflect"
 
-// GetName 通过struct{}获取类型名称
+// GetName 获取对象的struct的名称{*Struct}
 func GetName(result interface{}) string {
 	return reflect.TypeOf(result).Name()
 }
 
-// GetNameFromPt 通过*struct{}指针获取类型名称
+// GetNameFromPt 获取对象指针的struct的名称{&Struct}
 func GetNameFromPt(result interface{}) string {
 	return reflect.TypeOf(result).Elem().Name()
 }

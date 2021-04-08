@@ -33,6 +33,7 @@
 # 忽略目录
 logs/
 runlogs/
+tmp/
 
 # 忽略文件
 *.log
