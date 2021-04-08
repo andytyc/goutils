@@ -1,14 +1,15 @@
-package main
+package test
 
 import (
 	"fmt"
+	"testing"
 	"time"
 
 	"github.com/andytyc/goutils/libs/meilogrus"
 	"github.com/sirupsen/logrus"
 )
 
-func main() {
+func TestLogrusFile(t *testing.T) {
 	meilog := &meilogrus.MeiFileLog{LogLevel: logrus.DebugLevel}
 	logger, err := meilog.GetLogger()
 	if err != nil {

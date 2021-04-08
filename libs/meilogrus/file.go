@@ -14,17 +14,24 @@ import (
 
 // MeiFileLog MeiFileLog
 type MeiFileLog struct {
+	// 日志名称 | 默认{all.log}
 	LogFileName string
-	LogLevel    logrus.Level
 
+	// 日志级别 | 默认{Info}
+	LogLevel logrus.Level
+
+	// 日志路径 | 默认{pwdDir + "/logs/ + LogFileName}
 	LogFilePath        string
 	FuncGetLogFilePath func(logFileName string) (logFilePath string, err error)
 
+	// 日志格式 | 默认{时间戳，级别，文件:行数，消息}
 	LogFormatter logrus.Formatter
 
-	LogFileWriter        *rotatelogs.RotateLogs
-	FuncGetLogFileWriter func(logFilePath string) (writer *rotatelogs.RotateLogs, err error)
+	// 日志写入器 | 默认{控制台，文件输出：日志每隔 8 小时轮转一个新文件，保留最近 7 天的日志文件}
+	LogFileWriter        io.Writer
+	FuncGetLogFileWriter func(logFilePath string) (writer io.Writer, err error)
 
+	// 日志退出回调函数 | 默认{采用logrus默认回调：os.Exit}
 	FuncLogExit func(code int)
 }
 
@@ -34,13 +41,9 @@ func (m *MeiFileLog) GetLogger() (logger *logrus.Logger, err error) {
 	if err != nil {
 		return
 	}
-	writers := []io.Writer{
-		m.LogFileWriter,
-		os.Stdout}
-	fileAndStdoutWriter := io.MultiWriter(writers...)
 
 	logger = logrus.New()
-	logger.SetOutput(fileAndStdoutWriter)
+	logger.SetOutput(m.LogFileWriter)
 	logger.SetLevel(m.LogLevel)
 	logger.SetReportCaller(true)
 	logger.SetFormatter(m.LogFormatter)
@@ -55,6 +58,7 @@ func (m *MeiFileLog) checkFileds() (err error) {
 	if m.LogFileName == "" {
 		m.LogFileName = DefaultLogFileName
 	}
+
 	if m.LogFilePath == "" {
 		if m.FuncGetLogFilePath == nil {
 			m.FuncGetLogFilePath = m.DefaultFuncGetLogFilePath
@@ -64,12 +68,15 @@ func (m *MeiFileLog) checkFileds() (err error) {
 			return
 		}
 	}
+
 	if m.LogLevel == 0 {
 		m.LogLevel = logrus.InfoLevel
 	}
+
 	if m.LogFormatter == nil {
 		m.LogFormatter = &DefaultLogFormatter{}
 	}
+
 	if m.LogFileWriter == nil {
 		if m.FuncGetLogFileWriter == nil {
 			m.FuncGetLogFileWriter = m.DefaultFuncGetLogFileWriter
@@ -117,13 +124,22 @@ func (s *DefaultLogFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	return []byte(msg), nil
 }
 
-// DefaultFuncGetLogFileWriter 默认输出
-// 日志每隔 24 小时轮转一个新文件，保留最近 7 天的日志文件，多余的自动清理掉。
-func (m *MeiFileLog) DefaultFuncGetLogFileWriter(logFilePath string) (writer *rotatelogs.RotateLogs, err error) {
-	return rotatelogs.New(
-		logFilePath+".%Y%m%d%H%M",
+// DefaultFuncGetLogFileWriter 默认输出{文件、控制台}
+// 文件：每隔 24 小时轮转一个新文件，保留最近 7 天的日志文件，多余的自动清理掉。
+// 年月日时分秒：logFilePath+".%Y%m%d%H%M%S"
+func (m *MeiFileLog) DefaultFuncGetLogFileWriter(logFilePath string) (writer io.Writer, err error) {
+	fileWriter, err := rotatelogs.New(
+		logFilePath+".%Y%m%d",
 		rotatelogs.WithLinkName(logFilePath),
 		rotatelogs.WithRotationTime(time.Duration(24)*time.Hour),
 		rotatelogs.WithMaxAge(time.Duration(24*7)*time.Hour),
 	)
+	if err != nil {
+		return
+	}
+
+	writers := []io.Writer{fileWriter, os.Stdout}
+	writer = io.MultiWriter(writers...)
+
+	return
 }

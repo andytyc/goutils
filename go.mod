@@ -11,4 +11,5 @@ require (
 	github.com/lestrrat-go/strftime v1.0.4 // indirect
 	github.com/shirou/gopsutil v3.21.1+incompatible
 	github.com/sirupsen/logrus v1.4.2
+	gorm.io/gorm v1.21.6
 )
